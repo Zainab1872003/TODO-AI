@@ -11,13 +11,33 @@ export async function createTodo(req, res, next) {
 }
 
 export async function getTodos(req, res, next) {
-  try {
-    const parentId = req.query.parent || null;
-    const todos = await todoService.getTodosByUser(req.user.id, parentId);
-    sendSuccess(res, 200, 'Todos fetched successfully', todos);
-  } catch (err) {
-    next(err);
-  }
+    try {
+        const parentId = req.query.parent || null;
+        const todos = await todoService.getTodosByUser(req.user.id, parentId);
+        const now = new Date();
+        todos = await Promise.all(todos.map(async todo => {
+            if (todo.status !== 'done' && todo.deadline < now) {
+                todo.status = 'pending';
+                // Optionally, update in DB:
+                await Todo.findByIdAndUpdate(todo._id, { status: 'pending' });
+            }
+            return todo;
+        }));
+
+        sendSuccess(res, 200, 'Todos fetched successfully', todos);
+    } catch (err) {
+        next(err);
+    }
+}
+
+
+export async function markDone(req, res, next) {
+    try {
+        await todoService.markTodoAsDone(req.params.id);
+        sendSuccess(res, 200, 'Todo marked as done successfully', null);
+    } catch (err) {
+        next(err);
+    }
 }
 
 

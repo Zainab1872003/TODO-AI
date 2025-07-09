@@ -47,3 +47,7 @@ export async function getPaginatedTodos({ userId, page = 1, limit = 10 }) {
         todos
     };
 }
+
+export const markTodoAsDone = async (todoId) => {
+  await Todo.findByIdAndUpdate(todoId, { status: 'done' });
+};
