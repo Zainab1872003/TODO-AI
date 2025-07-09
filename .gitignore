@@ -1,0 +1,46 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Debug
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Optional npm cache directory
+.npm
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+coverage/
+
+# Build output
+dist/
+build/
+
+# MongoDB d
+
+package-lock.json
+package.json
